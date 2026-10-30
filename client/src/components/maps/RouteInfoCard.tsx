@@ -1,0 +1,13 @@
+import { Clock3, MapPin, Package, Route, ShieldCheck } from 'lucide-react'
+import type { RouteResult } from '../../services/directions.service'
+import { formatDistance, formatDuration } from '../../services/directions.service'
+
+type AssignmentView = { donationName: string; donorName?: string; ngoName?: string; quantityKg?: number; donorLocation: string; destination: string; deadline: string; status: string }
+
+export function RouteInfoCard({ assignment, route, stage, locationStatus, onNavigate, onConfirmPickup, onUploadProof }: { assignment: AssignmentView; route?: RouteResult; stage: 'pickup' | 'ngo'; locationStatus: string; onNavigate: () => void; onConfirmPickup: () => void; onUploadProof: () => void }) {
+  const destinationName = stage === 'pickup' ? assignment.donorName || 'Food donor' : assignment.ngoName || 'NGO destination'
+  const destinationAddress = stage === 'pickup' ? assignment.donorLocation : assignment.destination
+  return <div className="route-info-card"><div className="route-info-top"><div><span className="eyebrow">{stage === 'pickup' ? 'Stage 1 · Navigate to donor' : 'Stage 2 · Navigate to NGO'}</span><h3>{assignment.donationName}</h3></div><span className={`route-stage-badge route-stage-${stage}`}>{assignment.status}</span></div><div className="route-info-grid"><div><Package size={15} /><span><small>Food & quantity</small><strong>{assignment.quantityKg || '—'} kg · {destinationName}</strong></span></div><div><MapPin size={15} /><span><small>{stage === 'pickup' ? 'Pickup address' : 'Delivery address'}</small><strong>{destinationAddress}</strong></span></div><div><Route size={15} /><span><small>Road route</small><strong>{route ? `${formatDistance(route.distanceMeters)} · ${formatDuration(route.durationSeconds)}` : 'Finding road route…'}</strong></span></div><div><Clock3 size={15} /><span><small>{stage === 'pickup' ? 'Pickup deadline' : 'Location status'}</small><strong>{stage === 'pickup' ? formatDeadline(assignment.deadline) : locationStatus}</strong></span></div></div><div className="route-info-actions"><button className="button button-ghost" onClick={onNavigate}><MapPin size={16} /> Navigate to {stage === 'pickup' ? 'pickup' : 'NGO'}</button>{stage === 'pickup' ? <button className="button" onClick={onConfirmPickup}>Confirm pickup <ShieldCheck size={16} /></button> : <label className="button"><input className="visually-hidden" type="file" accept="image/*" onChange={onUploadProof} />Confirm delivery with proof <ShieldCheck size={16} /></label>}</div></div>
+}
+
+function formatDeadline(value: string) { const diff = new Date(value).getTime() - Date.now(); const hours = Math.max(0, Math.round(diff / 3600000)); return hours ? `in ${hours}h` : 'due now' }

@@ -1,0 +1,13 @@
+{
+  "routes": [
+    { "path": "/", "title": "FoodLoop AI — Rescue Food. Share Hope." },
+    { "path": "/login", "title": "Sign in to FoodLoop AI" },
+    { "path": "/discover", "title": "Discover NGOs — FoodLoop AI" },
+    { "path": "/app/donor", "title": "Donor dashboard — FoodLoop AI" },
+    { "path": "/app/ngo", "title": "NGO dashboard — FoodLoop AI" },
+    { "path": "/app/volunteer", "title": "Volunteer dashboard — FoodLoop AI" },
+    { "path": "/app/admin", "title": "Admin dashboard — FoodLoop AI" },
+    { "path": "/profile", "title": "Profile settings — FoodLoop AI" },
+    { "path": "/find-ngos", "title": "Find NGOs near me — FoodLoop AI" }
+  ]
+}
